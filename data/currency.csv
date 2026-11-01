@@ -1,0 +1,2 @@
+order_id,customer_id,amount,created_at,status
+o4,c4,"1,234.56",2026-01-01T10:00:00+05:30,paid

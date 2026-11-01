@@ -1,0 +1,10 @@
+include README.md LICENSE CHANGELOG.md CONTRIBUTING.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md
+include .editorconfig .gitattributes .env.example .gitignore .dockerignore Dockerfile
+recursive-include src *.py py.typed
+recursive-include tests *.py
+recursive-include data *.csv
+recursive-include lab *.py *.md
+recursive-include scripts *.py
+recursive-include docs *.md
+recursive-include requirements *.txt *.md
+recursive-include .github *.yml *.md CODEOWNERS

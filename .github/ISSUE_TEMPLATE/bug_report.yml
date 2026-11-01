@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible failure using synthetic data.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials or private records. Use SECURITY.md for security issues.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps and minimal synthetic CSV
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Python version, operating system, project version and command used.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized error code and run evidence
+      description: Remove private data and credentials before attaching logs or reports.

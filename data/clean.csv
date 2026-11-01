@@ -1,0 +1,3 @@
+order_id,customer_id,amount,created_at,status
+o1,c1,12.50,2026-01-01T10:00:00+05:30,paid
+o2,c2,,2026-01-01T10:00:00+05:30,pending

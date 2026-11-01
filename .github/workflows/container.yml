@@ -1,0 +1,17 @@
+name: container
+on:
+  pull_request:
+    paths: ['Dockerfile', '.dockerignore', 'pyproject.toml', 'src/**', 'data/**', 'lab/**', '.github/workflows/container.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: docker build -t etl-agents:ci .
+      - run: docker run --rm etl-agents:ci
