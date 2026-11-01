@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2800" height="2340" viewBox="0 0 2800 2340" role="img" aria-labelledby="title desc">
+<title id="title">Agent-Assisted ETL: governed schema reasoning and deterministic execution</title>
+<desc id="desc">Four planes: schema planning and approval; deterministic inspection, transformation, quality checks, loading and recovery; one local SQLite database; explicitly proposed enterprise extensions. Only column metadata reaches the AI planner. Current evidence: 77 tests and 11 scripted scenarios. Live API validation pending.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="0" y="0" width="2800" height="240" rx="0" fill="#142D48" stroke="none" stroke-width="2"/>
+<rect x="60" y="44" width="8" height="62" rx="4" fill="#50D5C0" stroke="none" stroke-width="2"/>
+<text x="88" y="91" fill="#FFFFFF" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="55" font-weight="700">AGENT-ASSISTED ETL</text>
+<text x="60" y="140" fill="#D7E8F5" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="30" font-weight="400">Enterprise reference architecture | Governed schema decisions + deterministic execution</text>
+<rect x="60" y="166" width="290" height="35" rx="17" fill="#1F5362" stroke="none" stroke-width="2"/>
+<text x="77" y="191" fill="#C0F5E9" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">SOLID = IMPLEMENTED</text>
+<rect x="375" y="166" width="390" height="35" rx="17" fill="#3D4660" stroke="none" stroke-width="2"/>
+<text x="393" y="191" fill="#E6E7F2" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">DASHED BOX = PROPOSED</text>
+<text x="805" y="191" fill="#FFFFFF" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">AI proposes. Operators approve. Deterministic code executes.</text>
+<text x="60" y="225" fill="#BFD1E0" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="400">OpenAI adapter implemented; live API validation pending. The lab explicitly selects a scripted demo planner.</text>
+<polyline points="60,253 2740,253" fill="none" stroke="#D8E2ED" stroke-width="2" stroke-linejoin="round"/>
+<text x="60" y="288" fill="#117F85" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="28" font-weight="700">01</text>
+<text x="115" y="288" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">DECISION &amp; CONTROL PLANE</text>
+<text x="60" y="331" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">The schema-planning agent is a bounded reasoning component: it proposes mappings and has no warehouse write authority.</text>
+<rect x="82" y="415" width="420" height="270" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="80" y="410" width="420" height="270" rx="14" fill="#EAF3FF" stroke="#2764C3" stroke-width="2"/>
+<rect x="98" y="429" width="5" height="232" rx="2" fill="#2764C3" stroke="none" stroke-width="2"/>
+<text x="118" y="446" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">HUMAN CONTROL</text>
+<text x="118" y="490" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Operator / CLI</text>
+<text x="118" y="536" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Run, review, approve, resume</text>
+<text x="118" y="572" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Review column semantics</text>
+<text x="118" y="608" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Approve one exact proposal</text>
+<text x="118" y="644" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Operator label is attribution</text>
+<rect x="602" y="415" width="570" height="270" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="600" y="410" width="570" height="270" rx="14" fill="#F1ECFF" stroke="#7553BC" stroke-width="2"/>
+<rect x="618" y="429" width="5" height="232" rx="2" fill="#7553BC" stroke="none" stroke-width="2"/>
+<text x="638" y="446" fill="#7553BC" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">AI REASONING / METADATA ONLY</text>
+<text x="638" y="490" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Schema-planning agent</text>
+<text x="638" y="536" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">OpenAI Responses API adapter</text>
+<text x="638" y="572" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Column names + contract only</text>
+<text x="638" y="608" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Structured mapping; no source rows</text>
+<text x="638" y="644" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Demo mode: explicit fixture</text>
+<rect x="1272" y="415" width="570" height="270" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1270" y="410" width="570" height="270" rx="14" fill="#E7F6F2" stroke="#087F73" stroke-width="2"/>
+<rect x="1288" y="429" width="5" height="232" rx="2" fill="#087F73" stroke="none" stroke-width="2"/>
+<text x="1308" y="446" fill="#087F73" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">LOCAL POLICY ENFORCEMENT</text>
+<text x="1308" y="490" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Proposal validation</text>
+<text x="1308" y="536" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Complete one-to-one mapping</text>
+<text x="1308" y="572" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Preserve known fields and aliases</text>
+<text x="1308" y="608" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Reject collisions or invented fields</text>
+<text x="1308" y="644" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Invalid / refused / failed -&gt; block</text>
+<rect x="1942" y="415" width="780" height="270" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1940" y="410" width="780" height="270" rx="14" fill="#FFF4DC" stroke="#AC6B0A" stroke-width="2"/>
+<rect x="1958" y="429" width="5" height="232" rx="2" fill="#AC6B0A" stroke="none" stroke-width="2"/>
+<text x="1978" y="446" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">PAUSE / REVIEW / SEPARATE RESUME</text>
+<text x="1978" y="490" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Approval &amp; resume gate</text>
+<text x="1978" y="536" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Save proposal; end run as awaiting_approval</text>
+<text x="1978" y="572" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Bind input hash, contract, proposal and options</text>
+<text x="1978" y="608" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Resume re-inspects input and verifies approval</text>
+<text x="1978" y="644" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Reject modified, stale or consumed approval</text>
+<polyline points="500,540 550,540 550,372 2330,372 2330,410" fill="none" stroke="#167EA3" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="2330.0,410.0 2337.0,395.0 2323.0,395.0" fill="#167EA3"/>
+<rect x="922" y="333" width="546.0" height="35" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="930" y="359" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">Operator reviews and approves the saved proposal</text>
+<polyline points="1170,545 1270,545" fill="none" stroke="#7553BC" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1270.0,545.0 1255.0,538.0 1255.0,552.0" fill="#7553BC"/>
+<rect x="1180" y="503" width="67.0" height="33" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1188" y="527" fill="#7553BC" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="700">JSON</text>
+<polyline points="1840,545 1940,545" fill="none" stroke="#087F73" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1940.0,545.0 1925.0,538.0 1925.0,552.0" fill="#087F73"/>
+<polyline points="60,735 2740,735" fill="none" stroke="#D8E2ED" stroke-width="2" stroke-linejoin="round"/>
+<text x="60" y="770" fill="#117F85" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="28" font-weight="700">02</text>
+<text x="115" y="770" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">DETERMINISTIC DATA PLANE</text>
+<text x="60" y="813" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">One Python process. Fixed transformations and SQL. No model-generated code executes.</text>
+<rect x="82" y="905" width="420" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="80" y="900" width="420" height="260" rx="14" fill="#EAF3FF" stroke="#2764C3" stroke-width="2"/>
+<rect x="98" y="919" width="5" height="222" rx="2" fill="#2764C3" stroke="none" stroke-width="2"/>
+<text x="118" y="936" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">SOURCE CONTRACT</text>
+<text x="118" y="980" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">CSV source</text>
+<text x="118" y="1026" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Synthetic orders; UTF-8</text>
+<text x="118" y="1062" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Defaults: 10 MiB / 100k rows</text>
+<text x="118" y="1098" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Required five-field contract</text>
+<text x="118" y="1134" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Bounded local byte snapshot</text>
+<rect x="602" y="905" width="570" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="600" y="900" width="570" height="260" rx="14" fill="#EAF3FF" stroke="#2764C3" stroke-width="2"/>
+<rect x="618" y="919" width="5" height="222" rx="2" fill="#2764C3" stroke="none" stroke-width="2"/>
+<text x="638" y="936" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">SOURCE INSPECTION</text>
+<text x="638" y="980" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Inspect &amp; resolve schema</text>
+<text x="638" y="1026" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Read CSV shape and headers</text>
+<text x="638" y="1062" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Create run ID and input SHA-256</text>
+<text x="638" y="1098" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Built-in customer alias: cust_id</text>
+<text x="638" y="1134" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Unknown schema -&gt; request proposal</text>
+<rect x="1272" y="905" width="570" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1270" y="900" width="570" height="260" rx="14" fill="#E7F6F2" stroke="#087F73" stroke-width="2"/>
+<rect x="1288" y="919" width="5" height="222" rx="2" fill="#087F73" stroke="none" stroke-width="2"/>
+<text x="1308" y="936" fill="#087F73" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">BUSINESS RULES IN CODE</text>
+<text x="1308" y="980" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Transform &amp; quality gate</text>
+<text x="1308" y="1026" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Fixed ID, status and null rules</text>
+<text x="1308" y="1062" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Explicit zones -&gt; UTC; integer cents</text>
+<text x="1308" y="1098" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Known or approved mappings only</text>
+<text x="1308" y="1134" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Eligible batches load valid rows</text>
+<rect x="1942" y="905" width="780" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1940" y="900" width="780" height="260" rx="14" fill="#E7F6F2" stroke="#087F73" stroke-width="2"/>
+<rect x="1958" y="919" width="5" height="222" rx="2" fill="#087F73" stroke="none" stroke-width="2"/>
+<text x="1978" y="936" fill="#087F73" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">ATOMIC ORDER-LOAD TRANSACTION</text>
+<text x="1978" y="980" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Transactional loader</text>
+<text x="1978" y="1026" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">BEGIN IMMEDIATE; recheck approval under lock</text>
+<text x="1978" y="1062" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Commit orders + approval use + success events</text>
+<text x="1978" y="1098" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Skip identical orders; conflicting facts block</text>
+<text x="1978" y="1134" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Any failure rolls back the entire order load</text>
+<polyline points="500,1030 600,1030" fill="none" stroke="#2764C3" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="600.0,1030.0 585.0,1023.0 585.0,1037.0" fill="#2764C3"/>
+<polyline points="1170,1030 1270,1030" fill="none" stroke="#2764C3" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1270.0,1030.0 1255.0,1023.0 1255.0,1037.0" fill="#2764C3"/>
+<rect x="1172" y="983" width="81.0" height="33" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1180" y="1007" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="700">Known</text>
+<polyline points="1840,1030 1940,1030" fill="none" stroke="#087F73" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1940.0,1030.0 1925.0,1023.0 1925.0,1037.0" fill="#087F73"/>
+<rect x="1842" y="975" width="103.984375" height="31" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1850" y="997" fill="#087F73" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Valid rows</text>
+<polyline points="885,900 885,866 1230,866 1230,710 885,710 885,680" fill="none" stroke="#7553BC" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="885.0,680.0 878.0,695.0 892.0,695.0" fill="#7553BC"/>
+<rect x="910" y="828" width="198.0" height="35" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="918" y="854" fill="#7553BC" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">Unknown schema</text>
+<polyline points="2330,680 2330,846 1555,846 1555,900" fill="none" stroke="#AC6B0A" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1555.0,900.0 1562.0,885.0 1548.0,885.0" fill="#AC6B0A"/>
+<rect x="1652" y="805" width="459.0" height="35" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1660" y="831" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">Approved resume: exact input and options</text>
+<rect x="602" y="1285" width="570" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="600" y="1280" width="570" height="260" rx="14" fill="#FFF0ED" stroke="#C25246" stroke-width="2"/>
+<rect x="618" y="1299" width="5" height="222" rx="2" fill="#C25246" stroke="none" stroke-width="2"/>
+<text x="638" y="1316" fill="#C25246" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">REJECTED RECORDS / FAIL CLOSED</text>
+<text x="638" y="1360" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Quarantine &amp; block</text>
+<text x="638" y="1406" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">&gt;20% invalid or empty: reject batch</text>
+<text x="638" y="1442" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Otherwise retain invalid rows only</text>
+<text x="638" y="1478" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Keep record numbers and reasons</text>
+<text x="638" y="1514" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Whole rejection: no load / approval use</text>
+<rect x="1272" y="1285" width="570" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1270" y="1280" width="570" height="260" rx="14" fill="#FFF4DC" stroke="#AC6B0A" stroke-width="2"/>
+<rect x="1288" y="1299" width="5" height="222" rx="2" fill="#AC6B0A" stroke="none" stroke-width="2"/>
+<text x="1308" y="1316" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">CONTROLLED RECOVERY</text>
+<text x="1308" y="1360" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Rollback &amp; explicit rerun</text>
+<text x="1308" y="1406" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Orders and approval use roll back</text>
+<text x="1308" y="1442" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Validation evidence remains durable</text>
+<text x="1308" y="1478" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Resolve cause, then start a new run</text>
+<text x="1308" y="1514" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">No automatic business-rule relaxation</text>
+<rect x="1942" y="1285" width="780" height="260" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1940" y="1280" width="780" height="260" rx="14" fill="#E8F7FC" stroke="#16799A" stroke-width="2"/>
+<rect x="1958" y="1299" width="5" height="222" rx="2" fill="#16799A" stroke="none" stroke-width="2"/>
+<text x="1978" y="1316" fill="#16799A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">READ / REPORT / EXPLICIT QUERY</text>
+<text x="1978" y="1360" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Analytics &amp; evidence</text>
+<text x="1978" y="1406" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Static SQL aggregates on committed orders</text>
+<text x="1978" y="1442" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">HTML / JSON reports from the scripted lab</text>
+<text x="1978" y="1478" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Correlated run, approval and outcome events</text>
+<text x="1978" y="1514" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Order-level idempotency; attempts remain visible</text>
+<polyline points="1555,1160 1555,1220 885,1220 885,1280" fill="none" stroke="#C25246" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="885.0,1280.0 892.0,1265.0 878.0,1265.0" fill="#C25246"/>
+<rect x="992" y="1179" width="203.0" height="35" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1000" y="1205" fill="#C25246" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">Invalid-row policy</text>
+<polyline points="2100,1160 2100,1236 1555,1236 1555,1280" fill="none" stroke="#AC6B0A" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1555.0,1280.0 1562.0,1265.0 1548.0,1265.0" fill="#AC6B0A"/>
+<rect x="1657" y="1195" width="138.0" height="35" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="1665" y="1221" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">Load failure</text>
+<polyline points="2510,1160 2510,1280" fill="none" stroke="#16799A" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="2510.0,1280.0 2517.0,1265.0 2503.0,1265.0" fill="#16799A"/>
+<rect x="2522" y="1177" width="99.0" height="33" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="2530" y="1201" fill="#16799A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="700">Separate</text>
+<rect x="2522" y="1206" width="70.015625" height="33" rx="3" fill="white" stroke="none" stroke-width="2"/>
+<text x="2530" y="1230" fill="#16799A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="700">query</text>
+<polyline points="1555,1540 1555,1562 550,1562 550,980 600,980" fill="none" stroke="#768AA2" stroke-width="3" stroke-linejoin="round" stroke-dasharray="11 9"/>
+<polygon points="600.0,980.0 585.0,973.0 585.0,987.0" fill="#768AA2"/>
+<text x="80" y="1360" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Recovery starts</text>
+<text x="80" y="1395" fill="#AC6B0A" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">a fresh validated run</text>
+<text x="80" y="1460" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="700">API adapter limits</text>
+<text x="80" y="1495" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="400">20s request timeout</text>
+<text x="80" y="1530" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="400">2 retries / 3 attempts maximum</text>
+<polyline points="60,1600 2740,1600" fill="none" stroke="#D8E2ED" stroke-width="2" stroke-linejoin="round"/>
+<text x="60" y="1635" fill="#117F85" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="28" font-weight="700">03</text>
+<text x="115" y="1635" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">PERSISTENCE &amp; TRACEABILITY</text>
+<text x="60" y="1678" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">One SQLite database holds all logical tables. Local audit records are persistent, but are not immutable or authenticated.</text>
+<rect x="80" y="1720" width="2640" height="155" rx="14" fill="#EEF4FC" stroke="#2764C3" stroke-width="2"/>
+<text x="112" y="1764" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="28" font-weight="700">LOCAL SQLITE STORE</text>
+<text x="112" y="1806" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="25" font-weight="400">orders: canonical facts   |   runs: hashes + outcomes   |   proposals: mappings + approvals   |   quarantine: rejected rows   |   audit: decision trail</text>
+<text x="112" y="1848" fill="#2764C3" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="400">Quality / quarantine evidence persists before loading. Order writes, approval consumption and success evidence commit atomically.</text>
+<text x="80" y="1915" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="400">CODE ANCHORS  pipeline.py  /  planner.py  /  contract.py  /  storage.py  /  cli.py  /  lab/run_lab.py</text>
+<polyline points="60,1960 2740,1960" fill="none" stroke="#D8E2ED" stroke-width="2" stroke-linejoin="round"/>
+<text x="60" y="1995" fill="#117F85" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="28" font-weight="700">04</text>
+<text x="115" y="1995" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">PROPOSED ENTERPRISE EXTENSIONS</text>
+<text x="60" y="2038" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Future hardening capabilities below are not implemented or validated by the current reference project.</text>
+<rect x="82" y="2085" width="826" height="185" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="80" y="2080" width="826" height="185" rx="14" fill="#EEF2F7" stroke="#51647C" stroke-width="2" stroke-dasharray="11 8"/>
+<text x="118" y="2116" fill="#51647C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">PROPOSED / NOT IMPLEMENTED</text>
+<text x="118" y="2160" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Identity &amp; governance</text>
+<text x="118" y="2206" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">SSO / RBAC; authenticated reviewers</text>
+<text x="118" y="2242" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Secrets manager; independent approval roles</text>
+<rect x="992" y="2085" width="826" height="185" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="990" y="2080" width="826" height="185" rx="14" fill="#EEF2F7" stroke="#51647C" stroke-width="2" stroke-dasharray="11 8"/>
+<text x="1028" y="2116" fill="#51647C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">PROPOSED / NOT IMPLEMENTED</text>
+<text x="1028" y="2160" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Durable execution &amp; scale</text>
+<text x="1028" y="2206" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Scheduler / queue; streaming connectors</text>
+<text x="1028" y="2242" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Distributed warehouse; replay coordination</text>
+<rect x="1902" y="2085" width="820" height="185" rx="14" fill="#EDF1F6" stroke="none" stroke-width="2"/>
+<rect x="1900" y="2080" width="820" height="185" rx="14" fill="#EEF2F7" stroke="#51647C" stroke-width="2" stroke-dasharray="11 8"/>
+<text x="1938" y="2116" fill="#51647C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">PROPOSED / NOT IMPLEMENTED</text>
+<text x="1938" y="2160" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="29" font-weight="700">Operations &amp; assurance</text>
+<text x="1938" y="2206" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">External immutable audit; alerting and tracing</text>
+<text x="1938" y="2242" fill="#536A82" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="400">Signed image provenance; staged rollout</text>
+<text x="60" y="2315" fill="#18324C" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="24" font-weight="700">VERIFIED REFERENCE SCOPE   77 tests  /  11 scripted scenarios  /  mocked provider verification  /  live API validation pending</text>
+</svg>

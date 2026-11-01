@@ -8,3 +8,4 @@ recursive-include scripts *.py
 recursive-include docs *.md
 recursive-include requirements *.txt *.md
 recursive-include .github *.yml *.md CODEOWNERS
+recursive-include docs/assets *.png *.svg

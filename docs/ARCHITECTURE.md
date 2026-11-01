@@ -4,14 +4,9 @@
 
 The application separates uncertain schema reasoning from deterministic data handling. A CSV batch is the execution unit; `order_id` is the warehouse identity. The source is inspected once into a bounded byte snapshot, and its SHA-256 binds the subsequent approval and load.
 
-```mermaid
-flowchart TB
-    CLI[CLI and operator] --> CORE[Deterministic ETL core]
-    CSV[CSV snapshot and hash] --> CORE
-    CORE <-->|metadata and mapping only| PLAN[OpenAI planner or demo fixture]
-    CORE --> DB[(SQLite database)]
-    DB -->|separate query| SQL[SQL analytics]
-```
+[![Agent-assisted ETL architecture: AI schema planning, human approval, deterministic execution, persistence and proposed enterprise extensions](assets/architecture.png)](assets/architecture.png)
+
+[Full-size PNG](assets/architecture.png) | [Editable SVG](assets/architecture.svg)
 
 The planner adapter can use the live Responses API or an explicitly selected scripted fixture. Known schemas bypass it. The single SQLite node contains orders, proposals, approvals, run state, quarantine and audit tables; these are not independently deployed services. The application writes control state throughout execution, including on failed runs; auditing is not a final step after loading.
 

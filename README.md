@@ -10,14 +10,9 @@ A Python reference implementation for maintaining CSV ingestion pipelines under 
 
 The CLI coordinates a deterministic ETL application. SQLite holds warehouse orders, proposals, approvals, run state, quarantine and audit in **one database**. The core handles inspection, mapping checks, approval enforcement, fixed transformations, quality gating and transactional loading.
 
-```mermaid
-flowchart TB
-    CLI[CLI and operator] --> CORE[Deterministic ETL core]
-    CSV[CSV snapshot and hash] --> CORE
-    CORE <-->|metadata and mapping only| PLAN[OpenAI planner or demo fixture]
-    CORE --> DB[(SQLite database)]
-    DB -->|separate query| SQL[SQL analytics]
-```
+[![Agent-assisted ETL architecture: AI schema planning, human approval, deterministic execution, persistence and proposed enterprise extensions](docs/assets/architecture.png)](docs/assets/architecture.png)
+
+[Full-size PNG](docs/assets/architecture.png) | [Editable SVG](docs/assets/architecture.svg)
 
 Unknown schemas **stop after saving a validated proposal**. An operator approves it, then a separate resume command re-inspects the input and verifies its binding. Only eligible batches reach loading: empty batches or batches with more than 20% invalid rows are wholly quarantined. Otherwise, invalid rows are retained and valid rows proceed. Loading atomically commits orders, approval consumption and success events; any conflict rolls them back. Analytics is requested separately by the CLI or lab.
 
