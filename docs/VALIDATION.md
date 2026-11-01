@@ -35,6 +35,13 @@ The verification runner saves command results and logs under output/verification
 
 - Live OpenAI API: pending. No paid API calls were made; requests, refusals and retry behavior were mocked.
 - Docker image: definition supplied; no local Docker build/run evidence.
-- Hosted GitHub Actions: definitions supplied; successful hosted execution must be confirmed after upload.
-- Python 3.11-3.13 and Linux: defined in CI; only Windows/Python 3.14.8 was exercised locally.
+- Hosted GitHub Actions: verify and security workflows passed for implementation commit aefcf1cfd017aac5cd0fa470c9a982a12a222ec0. See the hosted evidence below.
+- Hosted matrix: Python 3.11, 3.12, 3.13 and 3.14 on Linux, plus Python 3.14 on Windows, passed. Local evidence remains Windows/Python 3.14.8.
 - Load, restore-time and availability objectives: not measured. No production deployment or measured business impact is claimed.
+
+## Hosted evidence
+
+- [Verify workflow: passed](https://github.com/lekhashashank1704/agent-assisted-etl/actions/runs/41270233846): quality/package checks and all five Python/platform jobs succeeded.
+- [Security workflow: passed](https://github.com/lekhashashank1704/agent-assisted-etl/actions/runs/41270233717): the strict dependency-snapshot advisory audit succeeded.
+
+These runs validate the initial implementation commit linked above. Later changes require their own workflow results. Docker and live OpenAI validation remain separately pending.
