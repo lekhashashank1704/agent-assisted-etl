@@ -5,25 +5,26 @@
 The application separates uncertain schema reasoning from deterministic data handling. A CSV batch is the execution unit; `order_id` is the warehouse identity. The source is inspected once into a bounded byte snapshot, and its SHA-256 binds the subsequent approval and load.
 
 ```mermaid
-flowchart LR
-    CSV[Untrusted CSV] --> I[Bounded inspection / SHA-256]
-    I --> K{Known schema?}
-    K -->|yes| T[Fixed Python transformations]
-    K -->|no| P[Schema planner: OpenAI or explicit fixture]
-    P --> V[Local mapping validation]
-    V --> A[Operator approval]
-    A --> B[Input / contract / proposal / options binding]
-    B --> T
-    T --> Q{Deterministic quality gate}
-    Q --> X[Row or batch quarantine]
-    Q --> L[Transactional SQLite load]
-    L --> R[Conflict: rollback]
-    L --> S[Static SQL analytics]
-    I --> U[Run state and audit]
-    A --> U
-    Q --> U
-    L --> U
+flowchart TB
+    OP[Operator] --> CLI[CLI]
+    SOURCE[Untrusted CSV] --> CORE[Deterministic ETL core]
+    CLI --> CORE
+    CORE -->|column names + contract only| PLANNER[Schema planner adapter]
+    PLANNER -->|untrusted mapping proposal| CORE
+    PLANNER -.->|live mode only| API[OpenAI Responses API]
+    API -.->|structured response| PLANNER
+    subgraph DB[SQLite - one local database]
+        CONTROL[(Runs / proposals / approvals / audit)]
+        QUARANTINE[(Rejected source records)]
+        WAREHOUSE[(Canonical orders)]
+    end
+    CORE --> CONTROL
+    CORE --> QUARANTINE
+    CORE --> WAREHOUSE
+    WAREHOUSE -->|explicit query| ANALYTICS[Static SQL analytics]
 ```
+
+The planner adapter can use the live Responses API or an explicitly selected scripted fixture. Known schemas bypass it. Table groups are logical views of one SQLite file, not independently deployed services. The application writes control state throughout execution, including on failed runs; auditing is not a final step after loading.
 
 | Module | Responsibility | External effects |
 |---|---|---|
@@ -34,34 +35,87 @@ flowchart LR
 | pipeline | Approval, quality gate, loading, queries and audit | SQLite |
 | cli | Argument validation, JSON output and process status | Filesystem and stdout/stderr |
 
-## Approval and load sequence
+## Execution and quality gates
+
+```mermaid
+flowchart TD
+    START[Start a new run] --> INSPECT[Bounded CSV snapshot / SHA-256]
+    INSPECT --> ROUTE{Approval ID supplied?}
+    ROUTE -->|yes| BIND[Verify saved approval and exact input binding]
+    BIND -->|valid| TRANSFORM[Fixed transformations / row validation]
+    ROUTE -->|no| KNOWN{Known fields or approved alias?}
+    KNOWN -->|yes| TRANSFORM
+    KNOWN -->|no| PROPOSE[Explicit planner / metadata only]
+    PROPOSE --> CHECK[Validate full mapping locally]
+    CHECK --> PAUSE[Save proposal / awaiting_approval / stop]
+    PAUSE -.->|operator approves; separate resume command| START
+
+    TRANSFORM --> QUALITY{Empty batch or invalid rows above 20 percent?}
+    QUALITY -->|yes| WHOLE[Persist all rows in quarantine / stop]
+    QUALITY -->|no| PARTIAL[Persist invalid rows and validation evidence]
+    PARTIAL --> LOAD[Atomic load transaction]
+    LOAD --> OUTCOME{Transaction succeeds?}
+    OUTCOME -->|yes| COMMIT[Commit orders / approval use / success state and events]
+    OUTCOME -->|no| ROLLBACK[Rollback orders and approval use / record failure separately]
+    ROLLBACK -.->|operator resolves cause and reruns| START
+```
+
+Inspection errors, missing planners, API failures, invalid proposals and invalid approvals fail closed before loading; they are omitted from the main flow above to keep its branch logic readable. There is no automatic retry loop for failed loads. A resume is a **new run** that reads the same source bytes and saved proposal; it does not ask the planner again. `cust_id` is a built-in alias; operator approvals authorize one exact proposal, not a reusable schema-wide alias.
+
+Exactly 20% invalid rows is eligible for a partial load. With zero invalid rows the evidence transaction still records validation and writes zero quarantine rows. Whole-batch quarantine never enters the order-load transaction or consumes approval. Quarantine evidence remains present if a later load fails. Analytics is a separate command, invoked explicitly by the lab after its scenarios.
+
+## Approval and load transaction sequence
+
+The sequence below describes the **unknown-schema path**. Known schemas bypass proposal creation and approval. The quality evidence transaction runs before the order-load transaction.
 
 ```mermaid
 sequenceDiagram
     actor Operator
-    participant CLI
-    participant Planner
+    participant App as CLI and deterministic core
+    participant Planner as Planner adapter
     participant DB as SQLite
-    CLI->>Planner: Column names + contract only
-    Planner-->>CLI: Structured mapping proposal
-    CLI->>CLI: Validate full bijection and known fields
-    CLI->>DB: Save proposal + originating run
-    Operator->>CLI: Approve saved proposal ID
-    CLI->>DB: Persist reviewer + exact binding digest
-    Operator->>CLI: Resume same input and options
-    CLI->>CLI: Inspect and validate rows
-    CLI->>DB: BEGIN IMMEDIATE
-    CLI->>DB: Recheck complete approval binding
-    CLI->>DB: Consume approval and compare/insert orders
-    alt All records consistent
-        CLI->>DB: Save success outcome and COMMIT
-    else Conflict or injected failure
-        CLI->>DB: ROLLBACK
-        CLI->>DB: Persist failed outcome separately
+
+    Operator->>App: run source --planner live or demo
+    App->>App: Inspect snapshot and hash input
+    App->>Planner: Column names and contract metadata only
+    Planner-->>App: Proposed mapping
+    App->>App: Validate full mapping and known fields
+    App->>DB: BEGIN IMMEDIATE
+    App->>DB: Save proposal, pending run outcome and events
+    App->>DB: COMMIT
+    App-->>Operator: awaiting_approval; run ends
+
+    Operator->>App: approve proposal ID
+    App->>DB: Save reviewer and exact binding digest atomically
+    Operator->>App: resume source --approval ID
+    App->>App: Re-inspect source; verify approval; validate rows
+    App->>DB: BEGIN IMMEDIATE - quality evidence
+    App->>DB: Save validation and quarantine rows
+
+    alt Empty batch or more than 20 percent invalid
+        App->>DB: Save quarantined outcome and event
+        App->>DB: COMMIT quality evidence
+        App-->>Operator: quarantined; no order-load transaction
+    else Batch eligible for loading
+        App->>DB: COMMIT quality evidence
+        App->>DB: BEGIN IMMEDIATE - order load
+        opt Mapping required operator approval
+            App->>DB: Recheck exact binding under lock; consume approval
+        end
+        App->>DB: Compare existing orders; insert new valid orders
+        alt All records consistent
+            App->>DB: Save success outcome and success events
+            App->>DB: COMMIT
+            App-->>Operator: loaded; inserted and skipped counts
+        else Conflict or injected failure
+            App->>DB: ROLLBACK orders, consumption and success evidence
+            App->>DB: Persist failed outcome in a separate transaction
+            App-->>Operator: failed; zero committed inserts
+        end
     end
 ```
 
-A proposal is saved atomically with its pending outcome. Quality evidence and quarantine rows form a separate transaction before loading, so they survive a failed load. Approval consumption, all order changes, successful run state and successful audit events share one transaction. A failed load therefore leaves its approval available for a recovery attempt.
+A proposal is saved atomically with its pending outcome. Quality evidence and quarantine rows form a separate transaction before loading, so they survive a failed load. Approval consumption, all order changes, successful run state and successful audit events share one transaction. A failed load therefore leaves its approval available for a recovery attempt. Identical existing orders are skipped; changed existing records abort the entire load.
 
 ## Failure model
 

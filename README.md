@@ -6,20 +6,35 @@ A Python reference implementation for maintaining CSV ingestion pipelines under 
 
 [Architecture](docs/ARCHITECTURE.md) | [Operator runbook](docs/OPERATIONS.md) | [Data contract](docs/DATA_CONTRACT.md) | [Validation evidence](docs/VALIDATION.md) | [Documentation index](docs/README.md)
 
-## Execution model
+## Architecture
+
+The CLI coordinates a deterministic ETL application. SQLite holds both warehouse records and control state in **one database**; the boxes below represent tables, not separate services.
 
 ```mermaid
-flowchart LR
-    S[CSV snapshot + hash] --> K{Known schema?}
-    K -->|yes| V[Fixed transforms + quality checks]
-    K -->|no| P[OpenAI mapping proposal]
-    P --> A[Local validation + operator approval]
-    A --> V
-    V --> Q[Row / batch quarantine]
-    V --> L[Transactional SQLite load]
-    L --> R[Conflict / failure rollback]
-    L --> D[SQL analytics + audit]
+flowchart TB
+    OP[Operator] --> CLI[CLI: run / review / approve / resume]
+    CSV[Untrusted CSV] -->|bounded local read| CORE[Deterministic ETL core]
+    CLI --> CORE
+    CORE -->|unknown schema: names + contract| PLAN[Schema planner]
+    PLAN -->|mapping proposal only| CORE
+    PLAN -.->|live mode only| API[OpenAI Responses API]
+    API -.->|structured response| PLAN
+
+    subgraph SQLITE[SQLite - one database]
+        CONTROL[(Runs / proposals / approvals / audit)]
+        REJECTED[(Quarantine)]
+        ORDERS[(Orders warehouse)]
+    end
+
+    CORE -->|decisions and outcomes| CONTROL
+    CORE -->|rejected rows or whole batch| REJECTED
+    CORE -->|eligible rows - atomic load| ORDERS
+    ORDERS -->|separate analytics command| SQL[Deterministic SQL aggregates]
 ```
+
+Unknown schemas **stop after saving a validated proposal**. An operator approves it, then a separate resume command re-inspects the input and verifies its binding. Only eligible batches reach loading: empty batches or batches with more than 20% invalid rows are wholly quarantined. Otherwise, invalid rows are retained and valid rows proceed. Loading atomically commits orders, approval consumption and success events; any conflict rolls them back. Analytics is requested separately by the CLI or lab.
+
+See the [execution flow and transaction sequence](docs/ARCHITECTURE.md) for the explicit branch conditions and recovery boundary.
 
 Only the schema planner uses a model. Source rows are never sent to OpenAI. Model output is never executed as Python or SQL. Unknown schemas fail closed when planning fails. `DemoPlanner` is an explicitly selected scripted fixture, independent of live mode.
 
