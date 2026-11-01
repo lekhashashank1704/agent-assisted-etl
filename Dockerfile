@@ -1,10 +1,10 @@
-FROM python:3.11-slim AS builder
+FROM python:3.15-slim AS builder
 WORKDIR /build
 COPY pyproject.toml README.md LICENSE ./
 COPY src ./src
 RUN python -m pip wheel --no-cache-dir --wheel-dir /wheels .
 
-FROM python:3.11-slim AS runtime
+FROM python:3.15-slim AS runtime
 LABEL org.opencontainers.image.title="Agent-Assisted ETL" \
       org.opencontainers.image.description="Governed schema planning with deterministic execution" \
       org.opencontainers.image.source="https://github.com/lekhashashank1704/agent-assisted-etl" \
