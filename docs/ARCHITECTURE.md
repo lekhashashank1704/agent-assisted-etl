@@ -6,25 +6,14 @@ The application separates uncertain schema reasoning from deterministic data han
 
 ```mermaid
 flowchart TB
-    OP[Operator] --> CLI[CLI]
-    SOURCE[Untrusted CSV] --> CORE[Deterministic ETL core]
-    CLI --> CORE
-    CORE -->|column names + contract only| PLANNER[Schema planner adapter]
-    PLANNER -->|untrusted mapping proposal| CORE
-    PLANNER -.->|live mode only| API[OpenAI Responses API]
-    API -.->|structured response| PLANNER
-    subgraph DB[SQLite - one local database]
-        CONTROL[(Runs / proposals / approvals / audit)]
-        QUARANTINE[(Rejected source records)]
-        WAREHOUSE[(Canonical orders)]
-    end
-    CORE --> CONTROL
-    CORE --> QUARANTINE
-    CORE --> WAREHOUSE
-    WAREHOUSE -->|explicit query| ANALYTICS[Static SQL analytics]
+    CLI[CLI and operator] --> CORE[Deterministic ETL core]
+    CSV[CSV snapshot and hash] --> CORE
+    CORE <-->|metadata and mapping only| PLAN[OpenAI planner or demo fixture]
+    CORE --> DB[(SQLite database)]
+    DB -->|separate query| SQL[SQL analytics]
 ```
 
-The planner adapter can use the live Responses API or an explicitly selected scripted fixture. Known schemas bypass it. Table groups are logical views of one SQLite file, not independently deployed services. The application writes control state throughout execution, including on failed runs; auditing is not a final step after loading.
+The planner adapter can use the live Responses API or an explicitly selected scripted fixture. Known schemas bypass it. The single SQLite node contains orders, proposals, approvals, run state, quarantine and audit tables; these are not independently deployed services. The application writes control state throughout execution, including on failed runs; auditing is not a final step after loading.
 
 | Module | Responsibility | External effects |
 |---|---|---|
