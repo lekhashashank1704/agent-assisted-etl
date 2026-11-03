@@ -28,7 +28,7 @@ jobs:
       - run: python -m mypy
       - run: python -m bandit -c pyproject.toml -r src/etl_agents
       - run: python -m build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: distribution
           path: dist/
@@ -59,7 +59,7 @@ jobs:
       - run: python -m etl_agents --db output/smoke.db run data/clean.csv
       - run: python -m etl_agents --db output/smoke.db health
       - run: python lab/run_lab.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: evidence-${{ matrix.os }}-${{ matrix.python }}
