@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Database",
     "Typing :: Typed",
 ]
-dependencies = ["openai>=2.54,<3"]
+dependencies = ["openai>=2.54,<4"]
 
 [project.urls]
 Repository = "https://github.com/lekhashashank1704/agent-assisted-etl"
